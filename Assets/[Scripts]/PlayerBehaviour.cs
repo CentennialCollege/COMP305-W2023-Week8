@@ -13,13 +13,16 @@ public class PlayerBehaviour : MonoBehaviour
     public float groundRadius;
     public LayerMask groundLayerMask;
     public bool isGrounded;
+    public PlayerAnimationState animationState;
 
     private Rigidbody2D rigidbody2D;
+    private Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -32,6 +35,7 @@ public class PlayerBehaviour : MonoBehaviour
        Flip(x);
        Move(x);
        Jump(y);
+       AirCheck();
     }
 
     private void Move(float x)
@@ -40,6 +44,20 @@ public class PlayerBehaviour : MonoBehaviour
 
         rigidbody2D.velocity = new Vector2(Mathf.Clamp(rigidbody2D.velocity.x, -maxSpeed, maxSpeed), rigidbody2D.velocity.y);
 
+        if (isGrounded)
+        {
+            if (x != 0.0f)
+            {
+                animationState = PlayerAnimationState.RUN;
+                animator.SetInteger("AnimationState", (int)animationState);
+            }
+            else
+            {
+                animationState = PlayerAnimationState.IDLE;
+                animator.SetInteger("AnimationState", (int)animationState);
+            }
+            
+        }
     }
 
     private void Jump(float y)
@@ -47,6 +65,15 @@ public class PlayerBehaviour : MonoBehaviour
         if ((isGrounded) && (y > 0.0f))
         {
             rigidbody2D.AddForce(Vector2.up * verticalForce, ForceMode2D.Impulse);
+        }
+    }
+
+    private void AirCheck()
+    {
+        if (!isGrounded)
+        {
+            animationState = PlayerAnimationState.JUMP;
+            animator.SetInteger("AnimationState", (int)animationState);
         }
     }
 
