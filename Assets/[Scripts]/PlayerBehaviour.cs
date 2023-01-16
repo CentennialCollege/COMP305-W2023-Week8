@@ -7,6 +7,12 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("Player Movement Properties")] 
     public float horitzontalForce;
     public float maxSpeed;
+    public float verticalForce;
+    public float airFactor;
+    public Transform groundPoint;
+    public float groundRadius;
+    public LayerMask groundLayerMask;
+    public bool isGrounded;
 
     private Rigidbody2D rigidbody2D;
 
@@ -26,6 +32,11 @@ public class PlayerBehaviour : MonoBehaviour
        Move(x);
     }
 
+    void FixedUpdate()
+    {
+        isGrounded = Physics2D.OverlapCircle(groundPoint.position, groundRadius, groundLayerMask);
+    }
+
     private void Move(float x)
     {
         rigidbody2D.AddForce(Vector2.right * x * horitzontalForce);
@@ -40,5 +51,11 @@ public class PlayerBehaviour : MonoBehaviour
         {
             transform.localScale = new Vector3((x > 0) ? 1 : -1, 1, 1);
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(groundPoint.position, groundRadius);
     }
 }
