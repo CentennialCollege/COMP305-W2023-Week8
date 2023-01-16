@@ -429,7 +429,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &529499425
 MonoBehaviour:
@@ -443,15 +443,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b472192c198b1a34cb2edfee7bd48987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horitzontalForce: 2000
+  horitzontalForce: 50
   maxSpeed: 20
-  verticalForce: 0
-  airFactor: 0
+  verticalForce: 15
+  airFactor: 0.2
   groundPoint: {fileID: 2101430723}
   groundRadius: 0.5
   groundLayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   isGrounded: 0
 --- !u!1 &1976844354
 GameObject:
@@ -467,7 +467,7 @@ GameObject:
   - component: {fileID: 1976844360}
   - component: {fileID: 1976844359}
   - component: {fileID: 1976844358}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Foreground
   m_TagString: Untagged
   m_Icon: {fileID: 0}

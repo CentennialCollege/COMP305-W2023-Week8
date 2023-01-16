@@ -23,26 +23,31 @@ public class PlayerBehaviour : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        float x = Input.GetAxisRaw("Horizontal") * Time.deltaTime;
-       // float y = Input.GetAxisRaw("Vertical");
-
-       Flip(x);
-       Move(x);
-    }
-
     void FixedUpdate()
     {
         isGrounded = Physics2D.OverlapCircle(groundPoint.position, groundRadius, groundLayerMask);
+        float x = Input.GetAxisRaw("Horizontal");
+        float y = Input.GetAxis("Jump");
+
+       Flip(x);
+       Move(x);
+       Jump(y);
     }
 
     private void Move(float x)
     {
-        rigidbody2D.AddForce(Vector2.right * x * horitzontalForce);
+        rigidbody2D.AddForce(Vector2.right * x * horitzontalForce * ((isGrounded) ? 1 : airFactor));
 
         rigidbody2D.velocity = new Vector2(Mathf.Clamp(rigidbody2D.velocity.x, -maxSpeed, maxSpeed), rigidbody2D.velocity.y);
 
+    }
+
+    private void Jump(float y)
+    {
+        if ((isGrounded) && (y > 0.0f))
+        {
+            rigidbody2D.AddForce(Vector2.up * verticalForce, ForceMode2D.Impulse);
+        }
     }
 
     private void Flip(float x)
