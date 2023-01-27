@@ -26,6 +26,8 @@ public class MovingPlatformController : MonoBehaviour
     public float maxSpeed;
     [Range(0.01f, 0.2f)]
     public float timingValue = 0.02f;
+    public bool timerIsActive;
+    public float timer;
     public bool isLooping;
     public bool isReverse;
 
@@ -34,7 +36,7 @@ public class MovingPlatformController : MonoBehaviour
 
     private Vector2 startPoint;
     private Vector2 endPoint;
-    public float timer;
+    
     private PathNode currentNode;
 
 
@@ -42,6 +44,7 @@ public class MovingPlatformController : MonoBehaviour
     void Start()
     {
         timer = 0.0f;
+        timerIsActive = true;
         startPoint = transform.position;
         BuildPathNodes();
     }
@@ -62,7 +65,7 @@ public class MovingPlatformController : MonoBehaviour
         for (var i = 0; i < pathNodes.Count; i++)
         {
             pathNodes[i].next = (i == pathNodes.Count - 1) ? pathNodes[0] : pathNodes[i + 1];
-            pathNodes[i].prev = (i == 0) ? pathNodes[pathNodes.Count - 1] : pathNodes[i - 1];
+            pathNodes[i].prev = (i == 0) ? pathNodes[^1] : pathNodes[i - 1];
         }
 
         currentNode = pathNodes[0];
@@ -80,20 +83,34 @@ public class MovingPlatformController : MonoBehaviour
 
     void FixedUpdate()
     {
-
-        if (timer <= 1.0f)
+        if (timerIsActive)
         {
-            timer += timingValue;
-        }
+            if (timer <= 1.0f)
+            {
+                timer += timingValue;
+            }
 
-        if (timer >= 1.0f)
-        {
-            timer = 0.0f;
+            if (timer >= 1.0f)
+            {
+                timer = 0.0f;
 
-            // moving down the list
-            startPoint = currentNode.position;
-            endPoint = currentNode.next.position;
-            currentNode = currentNode.next;
+                // moving down the list
+                startPoint = currentNode.position;
+                endPoint = currentNode.next.position;
+
+                if (currentNode != pathNodes[^1])
+                {
+                    currentNode = currentNode.next;
+                }
+                else if ((currentNode == pathNodes[^1]) && (isLooping))
+                {
+                    currentNode = currentNode.next;
+                }
+                else
+                {
+                    timerIsActive = false;
+                }
+            }
         }
     }
 
