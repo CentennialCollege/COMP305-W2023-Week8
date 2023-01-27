@@ -45,6 +45,9 @@ public class MovingPlatformController : MonoBehaviour
     {
         timer = 0.0f;
         timerIsActive = true;
+        isLooping = true;
+        isReverse = false;
+
         startPoint = transform.position;
         BuildPathNodes();
     }
@@ -96,20 +99,42 @@ public class MovingPlatformController : MonoBehaviour
 
                 // moving down the list
                 startPoint = currentNode.position;
-                endPoint = currentNode.next.position;
 
-                if (currentNode != pathNodes[^1])
+                if (!isReverse)
                 {
-                    currentNode = currentNode.next;
-                }
-                else if ((currentNode == pathNodes[^1]) && (isLooping))
-                {
-                    currentNode = currentNode.next;
+                    endPoint = currentNode.next.position;
+
+                    if (currentNode != pathNodes[^1])
+                    {
+                        currentNode = currentNode.next;
+                    }
+                    else if ((currentNode == pathNodes[^1]) && (isLooping))
+                    {
+                        currentNode = currentNode.next;
+                    }
+                    else
+                    {
+                        timerIsActive = false;
+                    }
                 }
                 else
                 {
-                    timerIsActive = false;
+                    endPoint = currentNode.prev.position;
+
+                    if (currentNode != pathNodes[0])
+                    {
+                        currentNode = currentNode.prev;
+                    }
+                    else if ((currentNode == pathNodes[0]) && (isLooping))
+                    {
+                        currentNode = currentNode.prev;
+                    }
+                    else
+                    {
+                        timerIsActive = false;
+                    }
                 }
+               
             }
         }
     }
