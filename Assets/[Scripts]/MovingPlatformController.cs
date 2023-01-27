@@ -3,41 +3,23 @@ using System.Collections.Generic;using System.Xml.XPath;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[System.Serializable]
-public class PathNode
-{
-    public Vector2 position;
-    public PathNode next;
-    public PathNode prev;
-
-    // constructor
-    public PathNode(Vector2 position, PathNode next, PathNode prev)
-    {
-        this.position = position;
-        this.next = next;
-        this.prev = prev;
-    }
-}
 
 public class MovingPlatformController : MonoBehaviour
 {
     [Header("Movement Properties")] 
-    [Range(1.0f, 20.0f)]
-    public float maxSpeed;
     [Range(0.01f, 0.2f)]
-    public float timingValue = 0.02f;
+    public float speedValue = 0.02f;
     public bool timerIsActive;
-    public float timer;
     public bool isLooping;
     public bool isReverse;
 
     [Header("Platform Path Points")]
-    public List<PathNode> pathNodes;
+    private List<PathNode> pathNodes;
 
     private Vector2 startPoint;
     private Vector2 endPoint;
-    
     private PathNode currentNode;
+    private float timer;
 
 
     // Start is called before the first frame update
@@ -76,8 +58,6 @@ public class MovingPlatformController : MonoBehaviour
         endPoint = currentNode.position;
     }
 
-    
-
     // Update is called once per frame
     void Update()
     {
@@ -90,7 +70,7 @@ public class MovingPlatformController : MonoBehaviour
         {
             if (timer <= 1.0f)
             {
-                timer += timingValue;
+                timer += speedValue;
             }
 
             if (timer >= 1.0f)
