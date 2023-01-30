@@ -160,13 +160,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2c696ff02382b34abd9d26a842420f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 0
-  timingValue: 0.02
+  speedValue: 0.02
   timerIsActive: 1
-  timer: 0
   isLooping: 1
-  isReverse: 1
-  pathNodes: []
+  isReverse: 0
 --- !u!1 &8262849227483131736
 GameObject:
   m_ObjectHideFlags: 0

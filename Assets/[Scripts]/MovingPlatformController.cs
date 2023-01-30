@@ -77,45 +77,27 @@ public class MovingPlatformController : MonoBehaviour
             {
                 timer = 0.0f;
 
-                // moving down the list
-                startPoint = currentNode.position;
-
-                if (!isReverse)
-                {
-                    endPoint = currentNode.next.position;
-
-                    if (currentNode != pathNodes[^1])
-                    {
-                        currentNode = currentNode.next;
-                    }
-                    else if ((currentNode == pathNodes[^1]) && (isLooping))
-                    {
-                        currentNode = currentNode.next;
-                    }
-                    else
-                    {
-                        timerIsActive = false;
-                    }
-                }
-                else
-                {
-                    endPoint = currentNode.prev.position;
-
-                    if (currentNode != pathNodes[0])
-                    {
-                        currentNode = currentNode.prev;
-                    }
-                    else if ((currentNode == pathNodes[0]) && (isLooping))
-                    {
-                        currentNode = currentNode.prev;
-                    }
-                    else
-                    {
-                        timerIsActive = false;
-                    }
-                }
-               
+                Traverse((isReverse) ? 0 : ^1, (isReverse) ? currentNode.prev : currentNode.next);
             }
+        }
+    }
+
+    private void Traverse(System.Index boundaryIndex, PathNode nextNode)
+    {
+        startPoint = currentNode.position;
+        endPoint = nextNode.position;
+
+        if (currentNode != pathNodes[boundaryIndex])
+        {
+            currentNode = nextNode;
+        }
+        else if ((currentNode == pathNodes[boundaryIndex]) && (isLooping))
+        {
+            currentNode = nextNode;
+        }
+        else
+        {
+            timerIsActive = false;
         }
     }
 
