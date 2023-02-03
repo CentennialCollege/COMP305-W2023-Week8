@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,17 +26,21 @@ public class PlayerBehaviour : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
+    void Update()
+    {
+        var y = Convert.ToInt32(Input.GetKeyDown(KeyCode.Space));
+        Jump(y);
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
         isGrounded = Physics2D.OverlapCircle(groundPoint.position, groundRadius, groundLayerMask);
-        float x = Input.GetAxisRaw("Horizontal");
-        float y = Input.GetAxis("Jump");
+        var x = Input.GetAxisRaw("Horizontal");
 
-       Flip(x);
-       Move(x);
-       Jump(y);
-       AirCheck();
+        Flip(x);
+        Move(x);
+        AirCheck();
     }
 
     private void Move(float x)
@@ -60,12 +65,13 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-    private void Jump(float y)
+    private void Jump(int y)
     {
         if ((isGrounded) && (y > 0.0f))
         {
             rigidbody2D.AddForce(Vector2.up * verticalForce, ForceMode2D.Impulse);
         }
+
     }
 
     private void AirCheck()
