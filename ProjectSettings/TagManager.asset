@@ -9,6 +9,7 @@ TagManager:
   - CheckPoint
   - One-Way Platform
   - Pickup
+  - Hazard
   layers:
   - Default
   - TransparentFX

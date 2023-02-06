@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,6 +17,14 @@ public class PlayerBehaviour : MonoBehaviour
     public bool isGrounded;
     public PlayerAnimationState animationState;
 
+    [Header("Screen Shake Properties")]
+    public CinemachineVirtualCamera virtualCamera;
+    public CinemachineBasicMultiChannelPerlin perlin;
+    public float shakeIntensity;
+    public float shakeDuration;
+    public float shakeTimer;
+    public bool isCameraShaking;
+
     private Rigidbody2D rigidbody2D;
     private Animator animator;
 
@@ -24,6 +33,12 @@ public class PlayerBehaviour : MonoBehaviour
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
+        // camera shake
+        isCameraShaking= false;
+        shakeTimer = shakeDuration;
+        virtualCamera = GameObject.Find("Player Camera").GetComponent<CinemachineVirtualCamera>();
+        perlin = virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
     void Update()
@@ -41,6 +56,19 @@ public class PlayerBehaviour : MonoBehaviour
         Flip(x);
         Move(x);
         AirCheck();
+
+        // camera Shake Control
+        if(isCameraShaking)
+        {
+            shakeTimer -= Time.deltaTime;
+            if(shakeTimer <= 0.0f) // timed out
+            {
+                perlin.m_AmplitudeGain = 0.0f;
+                shakeTimer = shakeDuration;
+                isCameraShaking = false;
+            }
+        }
+
     }
 
     private void Move(float x)
@@ -91,6 +119,12 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
+    private void ShakeCamera()
+    {
+        perlin.m_AmplitudeGain = shakeIntensity;
+        isCameraShaking= true;
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
@@ -102,6 +136,15 @@ public class PlayerBehaviour : MonoBehaviour
         if(other.gameObject.CompareTag("Pickup"))
         {
             other.gameObject.SetActive(false);
+            // make an interesting sound (pickup sound)
+            // gain points
+        }
+
+        if(other.gameObject.CompareTag("Hazard"))
+        {
+            ShakeCamera();
+            // make an interesting sound (hurt sound)
+            // lose health
         }
     }
 }

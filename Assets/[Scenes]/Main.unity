@@ -6280,6 +6280,7 @@ GameObject:
   - component: {fileID: 1787382084}
   - component: {fileID: 1787382086}
   - component: {fileID: 1787382085}
+  - component: {fileID: 1787382087}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -6349,6 +6350,23 @@ MonoBehaviour:
   m_YawDamping: 0
   m_RollDamping: 0
   m_AngularDamping: 0
+--- !u!114 &1787382087
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1787382080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
+  m_AmplitudeGain: 0
+  m_FrequencyGain: 1
+  mNoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1001 &1919410179
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11077,8 +11095,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3103868956774064526, guid: e6f410b0dff4171469ff283b2d43ff6a, type: 3}
+      propertyPath: shakeDuration
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3103868956774064526, guid: e6f410b0dff4171469ff283b2d43ff6a, type: 3}
       propertyPath: verticalForce
       value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3103868956774064526, guid: e6f410b0dff4171469ff283b2d43ff6a, type: 3}
+      propertyPath: shakeIntensity
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3103868956774064526, guid: e6f410b0dff4171469ff283b2d43ff6a, type: 3}
       propertyPath: phaseLayerMask.m_Bits
