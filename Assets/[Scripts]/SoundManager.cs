@@ -23,9 +23,11 @@ public class SoundManager : MonoBehaviour
         audioClips.Add(Resources.Load<AudioClip>("Audio/jump-sound")); // 0
         audioClips.Add(Resources.Load<AudioClip>("Audio/hurt-sound")); // 1
         audioClips.Add(Resources.Load<AudioClip>("Audio/gem-sound"));  // 2
+        audioClips.Add(Resources.Load<AudioClip>("Audio/death-sound"));  // 3
+        audioClips.Add(Resources.Load<AudioClip>("Audio/bullet-sound"));  // 4
 
         // preload music here
-
+        audioClips.Add(Resources.Load<AudioClip>("Audio/main-soundtrack"));  // 5
     }
 
     public void PlaySoundFX(Channel channel, SoundFX sound)
