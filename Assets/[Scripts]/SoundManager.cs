@@ -20,9 +20,9 @@ public class SoundManager : MonoBehaviour
     private void InitializeSoundFX()
     {
         // preload effects
-        audioClips.Add(Resources.Load<AudioClip>("Audio/jump-sound"));
-        audioClips.Add(Resources.Load<AudioClip>("Audio/hurt-sound"));
-        audioClips.Add(Resources.Load<AudioClip>("Audio/gem-sound"));
+        audioClips.Add(Resources.Load<AudioClip>("Audio/jump-sound")); // 0
+        audioClips.Add(Resources.Load<AudioClip>("Audio/hurt-sound")); // 1
+        audioClips.Add(Resources.Load<AudioClip>("Audio/gem-sound"));  // 2
 
         // preload music here
 

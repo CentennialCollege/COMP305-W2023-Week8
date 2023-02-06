@@ -27,12 +27,14 @@ public class PlayerBehaviour : MonoBehaviour
 
     private Rigidbody2D rigidbody2D;
     private Animator animator;
+    private SoundManager soundManager;
 
     // Start is called before the first frame update
     void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        soundManager = FindObjectOfType<SoundManager>();
 
         // camera shake
         isCameraShaking= false;
@@ -98,6 +100,7 @@ public class PlayerBehaviour : MonoBehaviour
         if ((isGrounded) && (y > 0.0f))
         {
             rigidbody2D.AddForce(Vector2.up * verticalForce, ForceMode2D.Impulse);
+            soundManager.PlaySoundFX(Channel.PLAYER_SOUND_FX, SoundFX.JUMP);
         }
 
     }
@@ -136,14 +139,14 @@ public class PlayerBehaviour : MonoBehaviour
         if(other.gameObject.CompareTag("Pickup"))
         {
             other.gameObject.SetActive(false);
-            // make an interesting sound (pickup sound)
+            soundManager.PlaySoundFX(Channel.PICKUP, SoundFX.GEM);
             // gain points
         }
 
         if(other.gameObject.CompareTag("Hazard"))
         {
             ShakeCamera();
-            // make an interesting sound (hurt sound)
+            soundManager.PlaySoundFX(Channel.PLAYER_HURT_FX, SoundFX.HURT);
             // lose health
         }
     }
