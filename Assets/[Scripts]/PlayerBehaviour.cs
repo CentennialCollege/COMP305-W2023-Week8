@@ -25,15 +25,17 @@ public class PlayerBehaviour : MonoBehaviour
     public float shakeTimer;
     public bool isCameraShaking;
 
-    private Rigidbody2D rigidbody2D;
-    private Animator animator;
+    [Header("PlayerBody Properties")]
+    public Transform playerBody;
+    public Rigidbody2D playerRigidBody2D;
+    public Animator animator;
+
     private SoundManager soundManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        rigidbody2D = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         soundManager = FindObjectOfType<SoundManager>();
 
         // camera shake
@@ -75,9 +77,9 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Move(float x)
     {
-        rigidbody2D.AddForce(Vector2.right * x * horitzontalForce * ((isGrounded) ? 1 : airFactor));
+        playerRigidBody2D.AddForce(Vector2.right * x * horitzontalForce * ((isGrounded) ? 1 : airFactor));
 
-        rigidbody2D.velocity = new Vector2(Mathf.Clamp(rigidbody2D.velocity.x, -maxSpeed, maxSpeed), rigidbody2D.velocity.y);
+        playerRigidBody2D.velocity = new Vector2(Mathf.Clamp(playerRigidBody2D.velocity.x, -maxSpeed, maxSpeed), playerRigidBody2D.velocity.y);
 
         if (isGrounded)
         {
@@ -99,7 +101,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if ((isGrounded) && (y > 0.0f))
         {
-            rigidbody2D.AddForce(Vector2.up * verticalForce, ForceMode2D.Impulse);
+            playerRigidBody2D.AddForce(Vector2.up * verticalForce, ForceMode2D.Impulse);
             soundManager.PlaySoundFX(Channel.PLAYER_SOUND_FX, SoundFX.JUMP);
         }
 
@@ -118,7 +120,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (x != 0)
         {
-            transform.localScale = new Vector3((x > 0) ? 1 : -1, 1, 1);
+            playerBody.localScale = new Vector3((x > 0) ? 1 : -1, 1, 1);
         }
     }
 
@@ -134,6 +136,8 @@ public class PlayerBehaviour : MonoBehaviour
         Gizmos.DrawWireSphere(groundPoint.position, groundRadius);
     }
 
+
+    // TODO: Need to move this Script to PlayerBody
     void OnTriggerEnter2D(Collider2D other)
     {
         if(other.gameObject.CompareTag("Pickup"))
