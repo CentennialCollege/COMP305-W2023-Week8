@@ -27,6 +27,9 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("Animation Properties")]
     public PlayerAnimationState animationState;
 
+    [Header("Health System")] 
+    public HealthSystem health;
+
     private Animator animator;
     private SoundManager soundManager;
     private Rigidbody2D rigidbody2D;
@@ -37,6 +40,7 @@ public class PlayerBehaviour : MonoBehaviour
         animator = GetComponent<Animator>();
         soundManager = FindObjectOfType<SoundManager>();
         rigidbody2D = GetComponent<Rigidbody2D>();
+        health = FindObjectOfType<PlayerHealthSystem>().GetComponent<HealthSystem>();
 
         // camera shake
         isCameraShaking= false;
@@ -151,7 +155,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             ShakeCamera();
             soundManager.PlaySoundFX(Channel.PLAYER_HURT_FX, SoundFX.HURT);
-            // lose health
+            health.TakeDamage(30);
         }
     }
 }
