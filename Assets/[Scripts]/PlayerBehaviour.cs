@@ -7,7 +7,7 @@ using UnityEngine;
 public class PlayerBehaviour : MonoBehaviour
 {
     [Header("Player Movement Properties")] 
-    public float horitzontalForce;
+    public float horizontalForce;
     public float maxSpeed;
     public float verticalForce;
     public float airFactor;
@@ -15,7 +15,6 @@ public class PlayerBehaviour : MonoBehaviour
     public float groundRadius;
     public LayerMask groundLayerMask;
     public bool isGrounded;
-    public PlayerAnimationState animationState;
 
     [Header("Screen Shake Properties")]
     public CinemachineVirtualCamera virtualCamera;
@@ -25,18 +24,19 @@ public class PlayerBehaviour : MonoBehaviour
     public float shakeTimer;
     public bool isCameraShaking;
 
-    [Header("PlayerBody Properties")]
-    public Transform playerBody;
-    public Rigidbody2D playerRigidBody2D;
-    public Animator animator;
+    [Header("Animation Properties")]
+    public PlayerAnimationState animationState;
 
+    private Animator animator;
     private SoundManager soundManager;
+    private Rigidbody2D rigidbody2D;
 
     // Start is called before the first frame update
     void Start()
     {
-        animator = GetComponentInChildren<Animator>();
+        animator = GetComponent<Animator>();
         soundManager = FindObjectOfType<SoundManager>();
+        rigidbody2D = GetComponent<Rigidbody2D>();
 
         // camera shake
         isCameraShaking= false;
@@ -77,9 +77,9 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Move(float x)
     {
-        playerRigidBody2D.AddForce(Vector2.right * x * horitzontalForce * ((isGrounded) ? 1 : airFactor));
+        rigidbody2D.AddForce(Vector2.right * x * horizontalForce * ((isGrounded) ? 1 : airFactor));
 
-        playerRigidBody2D.velocity = new Vector2(Mathf.Clamp(playerRigidBody2D.velocity.x, -maxSpeed, maxSpeed), playerRigidBody2D.velocity.y);
+        rigidbody2D.velocity = new Vector2(Mathf.Clamp(rigidbody2D.velocity.x, -maxSpeed, maxSpeed), rigidbody2D.velocity.y);
 
         if (isGrounded)
         {
@@ -101,7 +101,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if ((isGrounded) && (y > 0.0f))
         {
-            playerRigidBody2D.AddForce(Vector2.up * verticalForce, ForceMode2D.Impulse);
+            rigidbody2D.AddForce(Vector2.up * verticalForce, ForceMode2D.Impulse);
             soundManager.PlaySoundFX(Channel.PLAYER_SOUND_FX, SoundFX.JUMP);
         }
 
@@ -120,7 +120,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (x != 0)
         {
-            playerBody.localScale = new Vector3((x > 0) ? 1 : -1, 1, 1);
+            transform.localScale = new Vector3((x > 0) ? 1 : -1, 1, 1);
         }
     }
 
