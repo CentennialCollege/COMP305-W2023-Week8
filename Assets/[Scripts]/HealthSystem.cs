@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class HealthSystem : MonoBehaviour
 {
     [Header("Health Properties")] 
-    public int value;
+    public int value = 100;
 
     [Header("Display Properties")] 
     public Slider healthBar;

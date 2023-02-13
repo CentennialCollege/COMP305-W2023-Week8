@@ -29,10 +29,12 @@ public class PlayerBehaviour : MonoBehaviour
 
     [Header("Health System")] 
     public HealthSystem health;
+    public LifeCounter life;
 
     private Animator animator;
     private SoundManager soundManager;
     private Rigidbody2D rigidbody2D;
+    private DeathPlaneController deathPlane;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +43,8 @@ public class PlayerBehaviour : MonoBehaviour
         soundManager = FindObjectOfType<SoundManager>();
         rigidbody2D = GetComponent<Rigidbody2D>();
         health = FindObjectOfType<PlayerHealthSystem>().GetComponent<HealthSystem>();
+        life = FindObjectOfType<LifeCounter>();
+        deathPlane = FindObjectOfType<DeathPlaneController>();
 
         // camera shake
         isCameraShaking= false;
@@ -51,6 +55,23 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Update()
     {
+        if (health.value <= 0)
+        {
+            life.LoseLife();
+            if (life.value > 0)
+            {
+                health.ResetHealth();
+                deathPlane.ReSpawn(this.gameObject);
+                soundManager.PlaySoundFX(Channel.PLAYER_DEATH_FX, SoundFX.DEATH);
+            }
+        }
+
+        if (life.value <= 0)
+        {
+            // TODO: change scene to End Scene
+        }
+
+
         var y = Convert.ToInt32(Input.GetKeyDown(KeyCode.Space));
         Jump(y);
     }
