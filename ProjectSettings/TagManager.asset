@@ -10,6 +10,7 @@ TagManager:
   - One-Way Platform
   - Pickup
   - Hazard
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -23,7 +24,7 @@ TagManager:
   - CheckPoint
   - Camera Confiner
   - Platform
-  - 
+  - Enemy
   - 
   - 
   - 
