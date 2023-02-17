@@ -10,5 +10,6 @@ public enum Channel
     PLAYER_DEATH_FX,
     PICKUP,
     BULLET,
+    GROWL,
     MUSIC
 }

@@ -30,6 +30,10 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("Health System")] 
     public HealthSystem health;
     public LifeCounter life;
+    public bool isCollidingWithEnemy;
+
+    [Header("Collision Response")] 
+    public float bounceForce;
 
     private Animator animator;
     private SoundManager soundManager;
@@ -45,6 +49,7 @@ public class PlayerBehaviour : MonoBehaviour
         health = FindObjectOfType<PlayerHealthSystem>().GetComponent<HealthSystem>();
         life = FindObjectOfType<LifeCounter>();
         deathPlane = FindObjectOfType<DeathPlaneController>();
+        isCollidingWithEnemy = false;
 
         // camera shake
         isCameraShaking= false;
@@ -169,7 +174,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             other.gameObject.SetActive(false);
             soundManager.PlaySoundFX(Channel.PICKUP, SoundFX.GEM);
-            // gain points
+            // TODO: gain points / show progress
         }
 
         if(other.gameObject.CompareTag("Hazard"))
@@ -177,6 +182,45 @@ public class PlayerBehaviour : MonoBehaviour
             ShakeCamera();
             soundManager.PlaySoundFX(Channel.PLAYER_HURT_FX, SoundFX.HURT);
             health.TakeDamage(30);
+            rigidbody2D.AddForce(new Vector2(bounceForce * (rigidbody2D.velocity.x > 0.0 ? -1.0f : 1.0f), 0.0f), ForceMode2D.Impulse);
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            ShakeCamera();
+            soundManager.PlaySoundFX(Channel.PLAYER_HURT_FX, SoundFX.HURT);
+            health.TakeDamage(20);
+            rigidbody2D.AddForce(new Vector2(bounceForce * (rigidbody2D.velocity.x > 0.0 ? -1.0f : 1.0f), 0.0f), ForceMode2D.Impulse);
+        }
+
+    }
+
+    void OnCollisionStay2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            ShakeCamera();
+            
+            health.TakeDamage(1);
+
+            if (!isCollidingWithEnemy)
+            {
+                soundManager.PlaySoundFX(Channel.GROWL, SoundFX.GROWL);
+                isCollidingWithEnemy = true;
+            }
+            
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            soundManager.StopSoundFX(Channel.GROWL, SoundFX.GROWL);
+            isCollidingWithEnemy = false;
         }
     }
 }

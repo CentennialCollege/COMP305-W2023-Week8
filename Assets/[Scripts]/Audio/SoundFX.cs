@@ -10,5 +10,6 @@ public enum SoundFX
    GEM,
    DEATH,
    BULLET,
+   GROWL,
    MUSIC
 }
