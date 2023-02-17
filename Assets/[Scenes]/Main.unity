@@ -849,10 +849,11 @@ MonoBehaviour:
   groundRadius: 0.5
   groundLayerMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 192
   isObstacleInFront: 0
   isGroundAhead: 0
   isGrounded: 0
+  direction: {x: 0, y: 0}
 --- !u!1 &609778983
 GameObject:
   m_ObjectHideFlags: 0
@@ -12464,10 +12465,6 @@ PrefabInstance:
     - target: {fileID: 5462072863302809111, guid: 3bbfcb8d10467934f97205a1636d4648, type: 3}
       propertyPath: m_Name
       value: Pickup
-      objectReference: {fileID: 0}
-    - target: {fileID: 5462072863302809111, guid: 3bbfcb8d10467934f97205a1636d4648, type: 3}
-      propertyPath: m_Layer
-      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5866166584089562471, guid: 3bbfcb8d10467934f97205a1636d4648, type: 3}
       propertyPath: m_RootOrder
