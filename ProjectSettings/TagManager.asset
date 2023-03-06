@@ -11,6 +11,7 @@ TagManager:
   - Pickup
   - Hazard
   - Enemy
+  - Bullet
   layers:
   - Default
   - TransparentFX
@@ -26,7 +27,7 @@ TagManager:
   - Platform
   - Enemy
   - Pickup
-  - 
+  - Bullet
   - 
   - 
   - 
@@ -59,6 +60,9 @@ TagManager:
     locked: 0
   - name: Prop
     uniqueID: 1897903559
+    locked: 0
+  - name: Bullet
+    uniqueID: 3472286321
     locked: 0
   - name: Player
     uniqueID: 503702405
