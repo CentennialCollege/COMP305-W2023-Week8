@@ -161,3 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d79abc4400879da4895408222405e534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  direction: {x: 0, y: 0}
+  rigidbody2D: {fileID: 0}
+  force: 20

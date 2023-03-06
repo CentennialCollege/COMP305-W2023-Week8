@@ -46,7 +46,7 @@ public class SoundManager : MonoBehaviour
     public void PlayMusic()
     {
         audioSources[(int)Channel.MUSIC].clip = audioClips[(int)SoundFX.MUSIC];
-        audioSources[(int)Channel.MUSIC].volume = 0.25f;
+        audioSources[(int)Channel.MUSIC].volume = 0.1f;
         audioSources[(int)Channel.MUSIC].loop = true;
         audioSources[(int)Channel.MUSIC].Play();
     }
