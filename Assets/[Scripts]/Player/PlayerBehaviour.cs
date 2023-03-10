@@ -167,7 +167,6 @@ public class PlayerBehaviour : MonoBehaviour
     }
 
 
-    // TODO: Need to move this Script to PlayerBody
     void OnTriggerEnter2D(Collider2D other)
     {
         if(other.gameObject.CompareTag("Pickup"))
@@ -183,6 +182,14 @@ public class PlayerBehaviour : MonoBehaviour
             soundManager.PlaySoundFX(Channel.PLAYER_HURT_FX, SoundFX.HURT);
             health.TakeDamage(30);
             rigidbody2D.AddForce(new Vector2(bounceForce * (rigidbody2D.velocity.x > 0.0 ? -1.0f : 1.0f), 0.0f), ForceMode2D.Impulse);
+        }
+
+        if (other.gameObject.CompareTag("Bullet"))
+        {
+            ShakeCamera();
+            soundManager.PlaySoundFX(Channel.PLAYER_HURT_FX, SoundFX.HURT);
+            health.TakeDamage(10);
+            rigidbody2D.AddForce(new Vector2(bounceForce * (other.GetComponent<Rigidbody2D>().velocity.x > 0.0 ? 1.0f : -1.0f) * 0.5f, 0.0f), ForceMode2D.Impulse);
         }
     }
 
